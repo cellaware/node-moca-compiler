@@ -162,6 +162,7 @@ export class SqlFormatter {
             buf += query.clauseIndentBuf;
             buf += query.subqueryIndentBuf;
         }
+        return buf;
     }
 
     private static tokenWillAddNewline(token: Token) {
@@ -295,7 +296,7 @@ export class SqlFormatter {
 
                         if (isDDL) {
                             buf += (tokenText);
-                            SqlFormatter.addNewline(buf, queryStack);
+                            buf = SqlFormatter.addNewline(buf, queryStack);
                         } else {
                             buf += (tokenText);
                             buf += (' ');
@@ -303,7 +304,7 @@ export class SqlFormatter {
                     } else {
                         buf += (tokenText);
 
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
                     }
 
                     break;
@@ -400,7 +401,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -417,7 +418,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf = '';
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
 
@@ -431,7 +432,7 @@ export class SqlFormatter {
                         curQuery.clauseIndentBuf += (' ');
                         curQuery.clauseIndentBuf += (' ');
 
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
 
                         buf += (tokenText);
                     } else {
@@ -451,7 +452,7 @@ export class SqlFormatter {
                         curQuery.clauseIndentBuf += (' ');
                         curQuery.clauseIndentBuf += (' ');
 
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
 
                         buf += (tokenText);
                     } else {
@@ -471,7 +472,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf = '';
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
 
@@ -485,7 +486,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
 
@@ -499,7 +500,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
 
@@ -511,7 +512,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf = '';
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -533,7 +534,7 @@ export class SqlFormatter {
 
                     curQuery.clauseIndentBuf = '';
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -550,14 +551,14 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf = '';
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
 
                     if (nextToken != null && nextToken.type == SqlLexer.ALL) {
                         buf += (' ');
                     } else {
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
                     }
 
                     break;
@@ -565,7 +566,7 @@ export class SqlFormatter {
                 case SqlLexer.ALL:
 
                     buf += (tokenText);
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     break;
 
@@ -575,7 +576,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -590,14 +591,14 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
                     break;
                 case SqlLexer.VALUES:
                     curQuery.clauseIndentBuf = '';
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
                     break;
@@ -606,7 +607,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf = '';
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     buf += (tokenText);
                     break;
@@ -616,7 +617,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -633,7 +634,7 @@ export class SqlFormatter {
                         curQuery.clauseIndentBuf = '';
                         curQuery.clauseIndentBuf += (' ');
 
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
 
                         curQuery.clauseIndentBuf += (' ');
                         curQuery.clauseIndentBuf += (' ');
@@ -657,7 +658,7 @@ export class SqlFormatter {
                     if (nextToken != null && nextToken.type == SqlLexer.COLUMN) {
                         curQuery.clauseIndentBuf = '';
 
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
 
                         curQuery.clauseIndentBuf += (' ');
                         curQuery.clauseIndentBuf += (' ');
@@ -680,7 +681,7 @@ export class SqlFormatter {
 
                     curQuery.clauseIndentBuf = '';
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
@@ -715,7 +716,7 @@ export class SqlFormatter {
                     buf += (tokenText);
                     break;
                 case SqlLexer.WHEN:
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     if (prevToken != null && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
@@ -727,7 +728,7 @@ export class SqlFormatter {
 
                     curQuery.clauseIndentBuf = curQuery.clauseIndentBuf.substring(0, curQuery.clauseIndentBuf.length - 3);
 
-                    SqlFormatter.addNewline(buf, queryStack);
+                    buf = SqlFormatter.addNewline(buf, queryStack);
 
                     if (prevToken != null && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
@@ -754,12 +755,12 @@ export class SqlFormatter {
                         // like this.
                         buf += (tokenText.replace("\n ", "\n"));
                     } else {
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
                         buf += (tokenText);
                     }
 
                     if (nextToken != null && !SqlFormatter.tokenWillAddNewline(nextToken)) {
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
                     }
                     break;
                 case SqlLexer.LINE_COMMENT:
@@ -769,7 +770,7 @@ export class SqlFormatter {
                     buf += (tokenText);
 
                     if (nextToken != null && !SqlFormatter.tokenWillAddNewline(nextToken)) {
-                        SqlFormatter.addNewline(buf, queryStack);
+                        buf = SqlFormatter.addNewline(buf, queryStack);
                     }
                     break;
 
