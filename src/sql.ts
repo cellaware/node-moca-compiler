@@ -113,7 +113,7 @@ export class SqlFormatter {
                 break;
         }
 
-        if (!!token.text.match(/[a-zA-Z_0-9]+/gmi)) {
+        if (!!token.text.match(/[a-zA-Z_0-9]+/gm)) {
             return true;
         } else {
             switch (token.type) {
@@ -252,7 +252,7 @@ export class SqlFormatter {
                     buf += (tokenText);
                     parenCounter++;
 
-                    if (nextToken != null && nextToken.type == SqlLexer.SELECT) {
+                    if (!!nextToken && nextToken.type == SqlLexer.SELECT) {
 
                         let query = new Query(parenCounter);
 
@@ -284,7 +284,7 @@ export class SqlFormatter {
 
                     buf += (tokenText);
 
-                    if (nextToken != null && SqlFormatter.isWord(nextToken)) {
+                    if (!!nextToken && SqlFormatter.isWord(nextToken)) {
                         buf += (' ');
                     }
 
@@ -324,8 +324,8 @@ export class SqlFormatter {
                     break;
 
                 case SqlLexer.MINUS:
-                    if (nextToken != null && SqlFormatter.isWord(nextToken)) {
-                        if (prevToken != null
+                    if (!!nextToken && SqlFormatter.isWord(nextToken)) {
+                        if (!!prevToken
                             && (SqlFormatter.isOperator(prevToken) || prevToken.type == SqlLexer.LR_BRACKET
                                 || prevToken.type == SqlLexer.COMMA)) {
                             buf += (tokenText);
@@ -342,7 +342,7 @@ export class SqlFormatter {
                     break;
 
                 case SqlLexer.STAR:
-                    if (prevToken != null && (prevToken.type == SqlLexer.DOT
+                    if (!!prevToken && (prevToken.type == SqlLexer.DOT
                         || prevToken.type == SqlLexer.LR_BRACKET)) {
                         buf += (tokenText);
                     } else {
@@ -385,7 +385,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    if (prevToken != null) {
+                    if (!!prevToken) {
                         if (prevToken.type == SqlLexer.RR_BRACKET) {
                             buf += ('\n');
                         }
@@ -436,7 +436,7 @@ export class SqlFormatter {
 
                         buf += (tokenText);
                     } else {
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                             buf += (' ');
                         }
                         buf += (tokenText);
@@ -456,7 +456,7 @@ export class SqlFormatter {
 
                         buf += (tokenText);
                     } else {
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                             buf += (' ');
                         }
                         buf += (tokenText);
@@ -555,7 +555,7 @@ export class SqlFormatter {
 
                     buf += (tokenText);
 
-                    if (nextToken != null && nextToken.type == SqlLexer.ALL) {
+                    if (!!nextToken && nextToken.type == SqlLexer.ALL) {
                         buf += (' ');
                     } else {
                         buf = SqlFormatter.addNewline(buf, queryStack);
@@ -630,7 +630,7 @@ export class SqlFormatter {
                 case SqlLexer.DROP:
                     isDDL = true;
 
-                    if (nextToken != null && nextToken.type == SqlLexer.COLUMN) {
+                    if (!!nextToken && nextToken.type == SqlLexer.COLUMN) {
                         curQuery.clauseIndentBuf = '';
                         curQuery.clauseIndentBuf += (' ');
 
@@ -643,7 +643,7 @@ export class SqlFormatter {
 
                         buf += (tokenText);
                     } else {
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                             buf += (' ');
                         }
 
@@ -655,7 +655,7 @@ export class SqlFormatter {
                 case SqlLexer.ALTER:
                     isDDL = true;
 
-                    if (nextToken != null && nextToken.type == SqlLexer.COLUMN) {
+                    if (!!nextToken && nextToken.type == SqlLexer.COLUMN) {
                         curQuery.clauseIndentBuf = '';
 
                         buf = SqlFormatter.addNewline(buf, queryStack);
@@ -667,7 +667,7 @@ export class SqlFormatter {
 
                         buf += (tokenText);
                     } else {
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                             buf += (' ');
                         }
 
@@ -694,7 +694,7 @@ export class SqlFormatter {
                 case SqlLexer.CREATE:
                     isDDL = true;
 
-                    if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
                     }
 
@@ -709,7 +709,7 @@ export class SqlFormatter {
                     curQuery.clauseIndentBuf += (' ');
                     curQuery.clauseIndentBuf += (' ');
 
-                    if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
                     }
 
@@ -718,7 +718,7 @@ export class SqlFormatter {
                 case SqlLexer.WHEN:
                     buf = SqlFormatter.addNewline(buf, queryStack);
 
-                    if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
                     }
 
@@ -730,7 +730,7 @@ export class SqlFormatter {
 
                     buf = SqlFormatter.addNewline(buf, queryStack);
 
-                    if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
                     }
 
@@ -741,8 +741,8 @@ export class SqlFormatter {
 
                 case SqlLexer.COMMENT:
 
-                    if (prevToken == null || (prevToken != null && SqlFormatter.tokenWillAddNewline(prevToken))) {
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (prevToken == null || (!!prevToken && SqlFormatter.tokenWillAddNewline(prevToken))) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                             buf += (' ');
                         }
                         // Reason for replacement in token text here is due to the MocaFormatter indent
@@ -759,31 +759,30 @@ export class SqlFormatter {
                         buf += (tokenText);
                     }
 
-                    if (nextToken != null && !SqlFormatter.tokenWillAddNewline(nextToken)) {
+                    if (!!nextToken && !SqlFormatter.tokenWillAddNewline(nextToken)) {
                         buf = SqlFormatter.addNewline(buf, queryStack);
                     }
                     break;
                 case SqlLexer.LINE_COMMENT:
-                    if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                    if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                         buf += (' ');
                     }
                     buf += (tokenText);
 
-                    if (nextToken != null && !SqlFormatter.tokenWillAddNewline(nextToken)) {
+                    if (!!nextToken && !SqlFormatter.tokenWillAddNewline(nextToken)) {
                         buf = SqlFormatter.addNewline(buf, queryStack);
                     }
                     break;
 
                 default:
                     if (SqlFormatter.isWord(token)) {
-
-                        if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                        if (!!prevToken && SqlFormatter.isWord(prevToken)) {
 
                             // Not ideal, but we are having some issues formatting moca integration
                             // variables.
                             // In order to deal with this, let's explictly check for a word with a ":i_" in
                             // front of it.
-                            if (prevToken.text.toLowerCase() === ':i_') {
+                            if (prevToken.text.toLowerCase() !== ':i_') {
                                 buf += (' ');
                             }
                         }
@@ -796,7 +795,7 @@ export class SqlFormatter {
                         // extra analysis to create the asthetic we are looking for regarding these
                         // tokens.
                         if (token.type == SqlLexer.DOUBLE_QUOTE_ID || token.type == SqlLexer.STRING) {
-                            if (prevToken != null && SqlFormatter.isWord(prevToken)) {
+                            if (!!prevToken && SqlFormatter.isWord(prevToken)) {
                                 buf += (' ');
                                 buf += (tokenText);
 
@@ -804,7 +803,7 @@ export class SqlFormatter {
                                 buf += (tokenText);
                             }
 
-                            if (nextToken != null && SqlFormatter.isWord(nextToken)) {
+                            if (!!nextToken && SqlFormatter.isWord(nextToken)) {
                                 buf += (' ');
                             }
 
@@ -816,7 +815,7 @@ export class SqlFormatter {
             }
         }
 
-        return buf.toString();
+        return buf;
     }
 }
 
