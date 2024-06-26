@@ -810,7 +810,6 @@ export class SqlFormatter {
                         } else {
                             buf += (tokenText);
                         }
-
                     }
                     break;
             }

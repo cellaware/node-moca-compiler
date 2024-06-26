@@ -105,15 +105,29 @@ export class MocaCompilationResult {
     }
 
     hasSyntaxErrors() {
-        // TODO - check SQL
+        for (const sqlRes of this.sqlCompilationResults.values()) {
+            if (sqlRes.hasSyntaxErrors()) {
+                return true;
+            }
+        }
+
         return this.syntaxErrorListener.syntaxErrors.length > 0;
     }
 
     getSyntaxErrorText() {
         let buf = '';
         for (const err of this.syntaxErrorListener.syntaxErrors) {
-            buf += `${err.msg}\n`;
+            buf += `MOCA: ${err.msg}\n`;
         }
+
+        for (const sqlRes of this.sqlCompilationResults.values()) {
+            if (sqlRes.hasSyntaxErrors()) {
+                for (const err of sqlRes.syntaxErrorListener.syntaxErrors) {
+                    buf += `SQL: ${err.msg}\n`;
+                }
+            }
+        }
+
         return buf;
     }
 
@@ -128,7 +142,11 @@ export class MocaCompilationResult {
             }
         }
 
-        // TODO - check SQL
+        for (const sqlRes of this.sqlCompilationResults.values()) {
+            if (sqlRes.hasActions()) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -294,6 +312,14 @@ export class MocaFormatter {
         }
     }
 
+    private static formatSql(tokens: Token[], mocaIndentBuf?: string) {
+        let fmt = SqlFormatter.format(tokens);
+        if (!!fmt) {
+            fmt = fmt.replace(/\n/gm, `\n${mocaIndentBuf + ' '}`);
+        }
+        return `[${fmt}]`;
+    }
+
     static format(mocaCompilationResult: MocaCompilationResult): string {
 
         let tokens = mocaCompilationResult.tokens;
@@ -318,7 +344,7 @@ export class MocaFormatter {
                         let sqlRes = mocaCompilationResult.sqlCompilationResults.get(sqlCompilationResultIdx++);
                         if (!!sqlRes) {
                             try {
-                                buf += SqlFormatter.format(sqlRes.tokens);
+                                buf += MocaFormatter.formatSql(sqlRes.tokens, indentBuf);
                             } catch (err) {
                                 buf += token.text;
                             }
