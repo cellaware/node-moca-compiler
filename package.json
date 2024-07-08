@@ -1,6 +1,6 @@
 {
   "name": "moca-compiler",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MOCA Compiler for Node.js",
   "author": "Cellaware Technologies",
   "type": "module",
@@ -8,7 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node dist/test.js"
   },
   "keywords": [
     "MOCA",

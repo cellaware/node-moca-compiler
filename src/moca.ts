@@ -4,7 +4,7 @@ import MocaListener from "./antlr/MocaListener.js";
 import MocaLexer from "./antlr/MocaLexer.js";
 import { PositionUtils, RangeUtils } from "./utils.js";
 import { SqlCompilationResult, SqlCompiler, SqlFormatter, SqlLanguageUtils } from "./sql.js";
-import { Position, initPosition, Range, initRange, EmbeddedRange, Change, VerbNounClauseKey } from "./models.js";
+import { Position, Range, initRange, EmbeddedRange, Change, VerbNounClauseKey } from "./models.js";
 import { SyntaxErrorListener } from "./err.js";
 
 export class MocaCompiler {
@@ -164,10 +164,10 @@ export class MocaCompilationResult {
         return false;
     }
 
-    getTables() {
+    getPhysicalTables() {
         let tables: string[] = [];
         this.sqlCompilationResults.forEach(res => {
-            tables.push(...res.parseTreeListener.getPhysicalTableNames());
+            tables.push(...res.parseTreeListener.getPhysicalTables());
         });
         return tables;
     }

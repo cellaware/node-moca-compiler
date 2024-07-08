@@ -100,16 +100,16 @@ export class SqlParseTreeListener extends SqlListener {
         });
     }
 
-    getPhysicalTableNames() {
-        let tableNames: string[] = [];
+    getPhysicalTables() {
+        let tables: string[] = [];
         // Physical tables should not exist in aliases.
         this.tableTokens.forEach(token => {
-            const tableName = token.text.toLowerCase();
-            if (!this.tableAliases.includes(tableName)) {
-                tableNames.push(tableName);
+            const table = token.text.toLowerCase();
+            if (!this.tableAliases.includes(table)) {
+                tables.push(table);
             }
         });
-        return tableNames;
+        return tables;
     }
 }
 
