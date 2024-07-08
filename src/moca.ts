@@ -160,6 +160,16 @@ export class MocaCompilationResult {
         return false;
     }
 
+    getTables() {
+        let tables: string[] = [];
+        this.sqlCompilationResults.forEach(val => {
+            val.parseTreeListener.tableTokens.forEach(_val => {
+                tables.push(_val.text.toLowerCase());
+            });
+        });
+        return tables;
+    }
+
     private setEmbeddedRanges(script: string) {
         let sqlIdx = 0;
         let groovyIdx = 0;
