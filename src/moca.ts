@@ -142,6 +142,10 @@ export class MocaCompilationResult {
             }
         }
 
+        return this.hasSqlActions();
+    }
+
+    hasSqlActions() {
         for (const sqlRes of this.sqlCompilationResults.values()) {
             if (sqlRes.hasActions()) {
                 return true;
@@ -162,10 +166,8 @@ export class MocaCompilationResult {
 
     getTables() {
         let tables: string[] = [];
-        this.sqlCompilationResults.forEach(val => {
-            val.parseTreeListener.fromTables.forEach(fromTable => {
-                tables.push(fromTable.toLowerCase());
-            });
+        this.sqlCompilationResults.forEach(res => {
+            tables.push(...res.parseTreeListener.getPhysicalTableNames());
         });
         return tables;
     }

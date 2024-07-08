@@ -1,6 +1,6 @@
 import { CommonTokenStream, ParseTreeWalker, Token } from "antlr4";
 import SqlListener from "./antlr/SqlListener.js";
-import SqlParser, { Ddl_clauseContext, Delete_statementContext, Full_table_nameContext, Insert_statementContext, Table_nameContext, Update_statementContext } from "./antlr/SqlParser.js";
+import SqlParser, { Ddl_clauseContext, Delete_statementContext, Full_table_nameContext, Insert_statementContext, Query_specificationContext, Table_aliasContext, Table_nameContext, Update_statementContext } from "./antlr/SqlParser.js";
 import { CaseChangingCharStream } from "./utils.js";
 import SqlLexer from "./antlr/SqlLexer.js";
 import { SyntaxErrorListener } from "./err.js";
@@ -47,26 +47,31 @@ export class SqlCompilationResult {
 export class SqlParseTreeListener extends SqlListener {
 
     tableTokens: Token[];
-    fromTables: string[];
+    tableAliases: string[];
     action: boolean;
 
     constructor() {
         super();
 
         this.tableTokens = [];
-        this.fromTables = [];
+        this.tableAliases = [];
         this.action = false;
 
         this.enterFull_table_name = ((ctx: Full_table_nameContext) => {
             if (!!ctx && !!ctx.stop) {
                 this.tableTokens.push(ctx.stop);
-                this.fromTables.push(ctx.stop.text);
             }
         });
 
         this.enterTable_name = ((ctx: Table_nameContext) => {
             if (!!ctx && !!ctx.stop) {
                 this.tableTokens.push(ctx.stop);
+            }
+        });
+
+        this.enterTable_alias = ((ctx: Table_aliasContext) => {
+            if (!!ctx) {
+                this.tableAliases.push(ctx.id().getText().toLowerCase());
             }
         });
 
@@ -93,6 +98,18 @@ export class SqlParseTreeListener extends SqlListener {
                 this.action = true;
             }
         });
+    }
+
+    getPhysicalTableNames() {
+        let tableNames: string[] = [];
+        // Physical tables should not exist in aliases.
+        this.tableTokens.forEach(token => {
+            const tableName = token.text.toLowerCase();
+            if (!this.tableAliases.includes(tableName)) {
+                tableNames.push(tableName);
+            }
+        });
+        return tableNames;
     }
 }
 
