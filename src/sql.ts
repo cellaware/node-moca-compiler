@@ -1,6 +1,6 @@
 import { CommonTokenStream, ParseTreeWalker, Token } from "antlr4";
 import SqlListener from "./antlr/SqlListener.js";
-import SqlParser, { Ddl_clauseContext, Delete_statementContext, Full_table_nameContext, Insert_statementContext, Query_specificationContext, Table_aliasContext, Table_nameContext, Update_statementContext } from "./antlr/SqlParser.js";
+import SqlParser, { Ddl_clauseContext, Delete_statementContext, Full_table_nameContext, Insert_statementContext, Table_aliasContext, Table_nameContext, Update_statementContext } from "./antlr/SqlParser.js";
 import { CaseChangingCharStream } from "./utils.js";
 import SqlLexer from "./antlr/SqlLexer.js";
 import { SyntaxErrorListener } from "./err.js";
@@ -100,9 +100,9 @@ export class SqlParseTreeListener extends SqlListener {
         });
     }
 
-    getPhysicalTables() {
+    getNonDerivedTables() {
         let tables: string[] = [];
-        // Physical tables should not exist in aliases.
+        // Derived tables should exist as aliases.
         this.tableTokens.forEach(token => {
             const table = token.text.toLowerCase();
             if (!this.tableAliases.includes(table)) {

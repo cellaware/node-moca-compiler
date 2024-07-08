@@ -131,7 +131,7 @@ export class MocaCompilationResult {
         return buf;
     }
 
-    hasActions() {
+    hasMocaActions() {
         for (const tokens of this.parseTreeListener.verbNounClauses.values()) {
             if (tokens.length > 0) {
                 const verb = tokens[0].text.toLowerCase();
@@ -142,7 +142,7 @@ export class MocaCompilationResult {
             }
         }
 
-        return this.hasSqlActions();
+        return false;
     }
 
     hasSqlActions() {
@@ -155,6 +155,10 @@ export class MocaCompilationResult {
         return false;
     }
 
+    hasActions() {
+        return this.hasMocaActions() || this.hasSqlActions();
+    }
+
     hasGroovy() {
         for (const range of this.embeddedRanges) {
             if (range.ctx === 'groovy') {
@@ -164,10 +168,10 @@ export class MocaCompilationResult {
         return false;
     }
 
-    getPhysicalTables() {
+    getNonDerivedTables() {
         let tables: string[] = [];
         this.sqlCompilationResults.forEach(res => {
-            tables.push(...res.parseTreeListener.getPhysicalTables());
+            tables.push(...res.parseTreeListener.getNonDerivedTables());
         });
         return tables;
     }
