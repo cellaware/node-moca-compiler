@@ -1,6 +1,6 @@
 {
   "name": "moca-compiler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MOCA Compiler for Node.js",
   "author": "Cellaware Technologies",
   "type": "module",
