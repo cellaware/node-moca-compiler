@@ -47,17 +47,20 @@ export class SqlCompilationResult {
 export class SqlParseTreeListener extends SqlListener {
 
     tableTokens: Token[];
+    fromTables: string[];
     action: boolean;
 
     constructor() {
         super();
 
         this.tableTokens = [];
+        this.fromTables = [];
         this.action = false;
 
         this.enterFull_table_name = ((ctx: Full_table_nameContext) => {
             if (!!ctx && !!ctx.stop) {
-                this.tableTokens.push();
+                this.tableTokens.push(ctx.stop);
+                this.fromTables.push(ctx.stop.text);
             }
         });
 

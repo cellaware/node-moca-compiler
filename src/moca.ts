@@ -163,8 +163,8 @@ export class MocaCompilationResult {
     getTables() {
         let tables: string[] = [];
         this.sqlCompilationResults.forEach(val => {
-            val.parseTreeListener.tableTokens.forEach(_val => {
-                tables.push(_val.text.toLowerCase());
+            val.parseTreeListener.fromTables.forEach(fromTable => {
+                tables.push(fromTable.toLowerCase());
             });
         });
         return tables;
