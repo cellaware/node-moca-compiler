@@ -106,7 +106,7 @@ export class SqlParseTreeListener extends SqlListener {
         this.tableTokens.forEach(token => {
             const table = token.text.toLowerCase();
             if (!this.tableAliases.includes(table)) {
-                tables.push(table);
+                tables.push(token.text);
             }
         });
         return tables;
