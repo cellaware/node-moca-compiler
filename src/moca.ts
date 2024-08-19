@@ -504,7 +504,7 @@ export class MocaFormatter {
                     buf += `${token.text} `;
                     break;
                 case MocaLexer.CATCH:
-                    buf += `${token.text} `;
+                    buf += ` ${token.text}`;
                     break;
                 case MocaLexer.FINALLY:
                     buf += ` ${token.text} `;
